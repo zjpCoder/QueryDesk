@@ -1,0 +1,30 @@
+{
+  "appId": "com.querydesk.app",
+  "productName": "QueryDesk",
+  "electronVersion": "40.10.6",
+  "directories": {
+    "output": "../../release/20261027",
+    "buildResources": "../../.installer-build/20261027"
+  },
+  "artifactName": "QueryDesk-0.3.12-20261027-x64-Setup.${ext}",
+  "compression": "normal",
+  "win": {
+    "target": [{ "target": "nsis", "arch": ["x64"] }],
+    "icon": "../../.installer-build/20261027/icon.ico",
+    "signAndEditExecutable": false
+  },
+  "nsis": {
+    "guid": "93143976-4d4b-5b67-9fe1-ca36fd034bb6",
+    "oneClick": false,
+    "perMachine": false,
+    "allowToChangeInstallationDirectory": true,
+    "deleteAppDataOnUninstall": false,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "runAfterFinish": false,
+    "installerLanguages": ["zh_CN"],
+    "language": "2052",
+    "shortcutName": "QueryDesk"
+  },
+  "publish": null
+}

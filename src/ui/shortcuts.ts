@@ -1,0 +1,75 @@
+import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
+
+export function shortcut(event: KeyboardEvent | ReactKeyboardEvent, code:string, ctrl=false, shift=false, alt=false) {
+  const native='nativeEvent' in event?event.nativeEvent:event;
+  return !native.isComposing && native.keyCode!==229 && !event.repeat && !event.metaKey && event.code===code && event.ctrlKey===ctrl && event.shiftKey===shift && event.altKey===alt && !event.getModifierState('AltGraph');
+}
+export function consume(event:KeyboardEvent | ReactKeyboardEvent){event.preventDefault();event.stopPropagation();}
+
+// 键名使用 Monaco KeyCode 名称，帮助文本和绑定由同一张表生成。
+export const editorKeys: {action:string; label:string; keys:string[]; edit?:boolean}[]=[
+  {action:'editor.action.duplicateSelection',label:'复制选区或当前行',keys:['Ctrl+D'],edit:true},
+  {action:'editor.action.deleteLines',label:'删除当前行',keys:['Ctrl+Y'],edit:true},
+  {action:'editor.action.smartSelect.expand',label:'扩大选区',keys:['Ctrl+W']},
+  {action:'editor.action.smartSelect.shrink',label:'缩小选区',keys:['Ctrl+Shift+W']},
+  {action:'actions.find',label:'查找当前 SQL',keys:['Ctrl+F']},
+  {action:'editor.action.startFindReplaceAction',label:'替换当前 SQL',keys:['Ctrl+R']},
+  {action:'editor.action.nextMatchFindAction',label:'下一个查找结果',keys:['F3','Ctrl+L']},
+  {action:'editor.action.previousMatchFindAction',label:'上一个查找结果',keys:['Shift+F3','Ctrl+Shift+L']},
+  {action:'editor.action.nextSelectionMatchFindAction',label:'查找光标处单词',keys:['Ctrl+F3']},
+  {action:'editor.action.commentLine',label:'切换行注释',keys:['Ctrl+Slash'],edit:true},
+  {action:'editor.action.blockComment',label:'切换块注释',keys:['Ctrl+Shift+Slash'],edit:true},
+  {action:'undo',label:'撤销编辑',keys:['Ctrl+Z'],edit:true},
+  {action:'redo',label:'重做编辑',keys:['Ctrl+Shift+Z'],edit:true},
+  {action:'editor.action.gotoLine',label:'跳转行 / 列',keys:['Ctrl+G']},
+  {action:'editor.action.moveLinesUpAction',label:'上移当前行或选中行',keys:['Alt+Shift+UpArrow'],edit:true},
+  {action:'editor.action.moveLinesDownAction',label:'下移当前行或选中行',keys:['Alt+Shift+DownArrow'],edit:true},
+  {action:'editor.action.joinLines',label:'合并行',keys:['Ctrl+Shift+J'],edit:true},
+  {action:'editor.action.insertLineAfter',label:'在下一行开始输入',keys:['Shift+Enter'],edit:true},
+  {action:'querydesk.toggleCase',label:'切换选区 / 单词大小写',keys:['Ctrl+Shift+U'],edit:true},
+  {action:'editor.action.addSelectionToNextFindMatch',label:'增加下一个相同词选区',keys:['Alt+J']},
+  {action:'cursorUndo',label:'撤销上一次光标 / 选区变动',keys:['Alt+Shift+J']},
+  {action:'editor.action.selectHighlights',label:'选择所有相同词',keys:['Ctrl+Alt+Shift+J']},
+  {action:'editor.action.insertCursorAtEndOfEachLineSelected',label:'在选中各行末尾添加光标',keys:['Alt+Shift+G']},
+  {action:'editor.action.jumpToBracket',label:'跳转匹配括号',keys:['Ctrl+Shift+M']},
+  {action:'editor.fold',label:'折叠当前区域',keys:['Ctrl+Minus','Ctrl+NumpadSubtract']},
+  {action:'editor.unfold',label:'展开当前区域',keys:['Ctrl+Equal','Ctrl+NumpadAdd']},
+  {action:'editor.foldAll',label:'折叠全部区域',keys:['Ctrl+Shift+Minus','Ctrl+Shift+NumpadSubtract']},
+  {action:'editor.unfoldAll',label:'展开全部区域',keys:['Ctrl+Shift+Equal','Ctrl+Shift+NumpadAdd']},
+  {action:'editor.foldRecursively',label:'递归折叠当前区域',keys:['Ctrl+Alt+Minus','Ctrl+Alt+NumpadSubtract']},
+  {action:'editor.unfoldRecursively',label:'递归展开当前区域',keys:['Ctrl+Alt+Equal','Ctrl+Alt+NumpadAdd']},
+  {action:'scrollLineUp',label:'向上滚动一行',keys:['Ctrl+UpArrow']},
+  {action:'scrollLineDown',label:'向下滚动一行',keys:['Ctrl+DownArrow']},
+];
+export const displayKeys=(keys:string[])=>keys.join(' · ').replaceAll('UpArrow','↑').replaceAll('DownArrow','↓').replaceAll('Slash','/').replaceAll('NumpadSubtract','数字键盘减号').replaceAll('NumpadAdd','数字键盘加号').replaceAll('Minus','-').replaceAll('Equal','=');
+export const shortcutHelp=[
+  ['工作区','Ctrl+N','搜索数据库对象（当前连接 / Schema）'],
+  ['工作区','Ctrl+Shift+F','在所有已打开 / 恢复的 SQL 标签中查找'],
+  ['SQL / 表格','Ctrl+F12','SQL 语句与子句结构 / 表格字段列表'],
+  ['对象树 / 表格','Ctrl+F','搜索对象 / 查找已加载数据'],
+  ['工作区','Ctrl+Shift+A','查找操作（中文名称 / 快捷键）'],
+  ['工作区','Ctrl+E','最近打开的标签'],
+  ['工作区','Ctrl+Alt+E','查询历史'],
+  ['工作区','Ctrl+Shift+F10','在当前连接新建查询控制台'],
+  ['SQL 文件','Ctrl+O · Ctrl+S · Ctrl+Shift+S','打开 / 保存 / 另存为 SQL'],
+  ['SQL 编辑器','Ctrl+Enter','执行选中 SQL / 当前语句'],
+  ['SQL 工作区','Ctrl+F2','停止执行'],
+  ['SQL 编辑器','Ctrl+Alt+L','格式化选中 SQL / 全文'],
+  ['SQL 编辑器','Ctrl+Space','补全（输入法可能占用）'],
+  ...editorKeys.map(item=>['SQL 编辑器',displayKeys(item.keys),item.label]),
+  ['SQL 编辑器','Ctrl+← / → · Ctrl+Shift+← / →','按单词移动 / 选择'],
+  ['SQL 编辑器','Home / End · Shift+Home / End','移动到行首尾 / 选择到行首尾'],
+  ['SQL 编辑器','Ctrl+Home / End · Ctrl+Shift+Home / End','移动到全文首尾 / 选择到全文首尾'],
+  ['SQL 编辑器','Ctrl+Backspace · Ctrl+Delete','向前 / 向后删除单词'],
+  ['SQL 编辑器','Tab · Shift+Tab','缩进 / 取消缩进；补全和模板打开时沿用其行为'],
+  ['数据表格','Ctrl+Enter','保存变更（仍显示确认框）'],
+  ['数据表格','Alt+Insert · Alt+Delete','新增行 / 暂存删除所选行'],
+  ['数据表格','Ctrl+Alt+N','当前单元格设为 NULL'],
+  ['数据表格','Ctrl+Alt+Z','撤销表格草稿并刷新（需确认）'],
+  ['数据表格','Ctrl+Alt+↑ / ↓','上一页 / 下一页'],
+  ['表格 / 对象树','Ctrl+F5','刷新当前数据 / 对象'],
+  ['对象树','F4 · Ctrl+F6','打开数据或定义 / 修改表结构'],
+  ['工作区','Ctrl+F4','关闭当前标签（保留未提交提示）'],
+  ['工作区','Alt+← / →','上一个 / 下一个标签'],
+  ['工作区','Ctrl+Tab · Ctrl+Shift+Tab','循环切换标签'],
+];

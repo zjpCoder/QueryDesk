@@ -1,0 +1,62 @@
+import { expect } from '@playwright/test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+
+export async function workflowSmoke({app,page,work,sqlLog,preparedLog,receivedAI,aiPort}){
+  const editor=page.locator('.tab-page:visible .editor-area .monaco-editor');
+  const edit=async sql=>{await editor.click();await page.keyboard.press('Control+a');await page.keyboard.insertText(sql);await page.keyboard.press('Escape');};
+  const content=()=>page.evaluate(()=>window.querydesk.call('workspace.get').then(w=>w.tabs.find(t=>t.id===w.activeId)?.sql));
+  const select=async(label,value)=>{await page.locator(`.ant-select[aria-label="${label}"]:visible`).click();await page.locator('.ant-select-dropdown:visible').getByText(value,{exact:true}).last().click();};
+  await page.getByRole('button',{name:'新建查询',exact:true}).click();await expect(editor).toBeVisible();
+  await edit('SELECT 1;\n\nSELECT\nworkflow_bad FROM customers;');await page.getByRole('button',{name:'执行脚本',exact:true}).click();
+  await expect(page.getByRole('button',{name:/第 2 条语句 · 第 4 行/})).toBeVisible();await expect(editor.locator('.query-failure-mark')).toHaveCount(1);
+  await editor.click();await page.keyboard.press('Control+End');await page.keyboard.press('Control+Enter');await expect(page.getByRole('button',{name:/第 1 条语句 · 第 4 行/})).toBeVisible();
+  await edit('SELECT * FROM many_rows WHERE id >= :minimum;\nUSE other_schema;');await expect(editor.locator('.query-failure-mark')).toHaveCount(0);
+  await page.getByRole('button',{name:'执行脚本',exact:true}).click();await page.locator('.parameter-row input').fill('42');await page.getByRole('dialog').getByRole('button',{name:/^执\s*行$/}).click();
+  await expect(page.getByRole('button',{name:'导出查询全部结果',exact:true})).toBeEnabled();await expect(page.locator('.tab-page:visible .ag-cell[col-id="id"]').first()).toBeVisible();
+  await expect(page.locator('.connection-strip')).toContainText('other_schema');
+  await page.getByRole('button',{name:'再加载 200 行',exact:true}).click();
+  await edit('DELETE FROM customers;');
+  const queryFile=path.join(work,'query-all.json');await app.evaluate(({dialog},file)=>{dialog.showSaveDialog=async()=>({canceled:false,filePath:file});},queryFile);
+  await page.getByRole('button',{name:'导出查询全部结果',exact:true}).click();await expect(page.getByRole('dialog')).toContainText('SELECT * FROM many_rows WHERE id >= :minimum');await expect(page.getByRole('dialog')).toContainText('42');await expect(page.getByRole('dialog')).toContainText('querydesk_test');
+  await select('整表导出格式','JSON');await page.getByRole('button',{name:'选择位置并导出',exact:true}).click();await expect(page.getByText('导出完成 · 10,005 行',{exact:true})).toBeVisible({timeout:30000});
+  assert.equal(JSON.parse(fs.readFileSync(queryFile,'utf8')).length,10005);assert(preparedLog.some(x=>/many_rows/.test(x.sql)&&x.values[0]==='42'));assert(!sqlLog.some(s=>/^DELETE FROM customers/.test(s)));
+  await page.getByRole('dialog').getByRole('button',{name:/^关\s*闭$/}).click();
+  const state=await page.evaluate(()=>window.querydesk.call('workspace.get'));const tab=state.tabs.find(t=>t.id===state.activeId);
+  const rejected=await page.evaluate(async tab=>{
+    const args={id:'rejected-export',connectionId:tab.connectionId,schema:tab.schema,format:'csv'};
+    const errors=[];for(const sql of ['DELETE FROM customers','SELECT 1; DELETE FROM customers','SELECT evil() FROM customers'])errors.push(await window.querydesk.call('export.query',{...args,query:{sql,params:{}}}).then(()=>'',e=>e.message));return errors;
+  },tab);assert(rejected.every(Boolean));
+  const cancelled=path.join(work,'query-cancel.csv');fs.writeFileSync(cancelled,'original target');await app.evaluate(({dialog},file)=>{dialog.showSaveDialog=async()=>({canceled:false,filePath:file});},cancelled);
+  await page.evaluate(()=>{window.workflowExports=[];window.querydesk.onExport(e=>window.workflowExports.push(e));});
+  await page.evaluate(tab=>window.querydesk.call('export.query',{id:'query-cancel',connectionId:tab.connectionId,schema:tab.schema,format:'csv',query:{sql:'SELECT * FROM slow_export',params:{}}}),tab);
+  await expect.poll(()=>sqlLog.some(s=>/^SELECT \* FROM slow_export/.test(s))).toBe(true);await page.evaluate(()=>window.querydesk.call('export.cancel',{id:'query-cancel'}));await expect.poll(()=>page.evaluate(()=>window.workflowExports.find(e=>e.id==='query-cancel'&&e.done)?.error)).toMatch(/取消/);assert.equal(fs.readFileSync(cancelled,'utf8'),'original target');assert(!fs.readdirSync(work).some(n=>n.endsWith('.partial')));
+  await editor.click();await page.keyboard.press('Control+n');await page.getByRole('combobox',{name:'搜索数据库对象搜索'}).fill('customers');await page.keyboard.press('Enter');await expect(page.locator('.tab-page:visible .data-browser')).toBeVisible();
+  console.log('workflow: filters');
+  await select('筛选字段','id');await select('筛选条件','>=');await page.getByRole('textbox',{name:'筛选值 1',exact:true}).fill('2');
+  await page.getByRole('button',{name:'添加条件',exact:true}).click();await select('筛选字段 2','name');await page.getByRole('textbox',{name:'筛选值 2',exact:true}).fill("x%' OR 1=1 --");await select('条件关系','任一满足（OR）');
+  await page.getByRole('button',{name:/应\s*用$/}).click();await expect(page.getByText('已应用 2 个条件 · OR',{exact:true})).toBeVisible();
+  const filtered=preparedLog.findLast(x=>/LIMIT 201/.test(x.sql)&&/ OR /.test(x.sql));assert(filtered);assert.deepEqual(filtered.values,['2',"%x!%' OR 1=1 --%"]);assert(!filtered.sql.includes('1=1'));
+  await page.getByRole('textbox',{name:'筛选值 1',exact:true}).fill('999');
+  const filteredFile=path.join(work,'filtered.csv');await app.evaluate(({dialog},file)=>{dialog.showSaveDialog=async()=>({canceled:false,filePath:file});},filteredFile);
+  await page.getByRole('button',{name:'导出筛选结果',exact:true}).click();await expect(page.getByRole('dialog')).toContainText('2 个条件，任一满足（OR）');await page.getByRole('button',{name:'选择位置并导出',exact:true}).click();await expect(page.getByText('导出完成 · 3 行',{exact:true})).toBeVisible({timeout:15000});
+  const filteredExport=preparedLog.findLast(x=>/ OR /.test(x.sql)&&!x.sql.includes('LIMIT'));assert(filteredExport);assert.deepEqual(filteredExport.values,filtered.values);assert(fs.readFileSync(filteredFile,'utf8').includes('陈小北'));await page.getByRole('dialog').getByRole('button',{name:/^关\s*闭$/}).click();
+  await page.getByRole('button',{name:'新建查询',exact:true}).click();await expect(editor).toBeVisible();
+  console.log('workflow: AI selection');
+  await page.evaluate(port=>window.querydesk.call('ai.save',{baseUrl:`http://127.0.0.1:${port}/v1`,model:'workflow-fixture',apiKey:'fixture-key'}),aiPort);
+  // refreshSettings 在历史入口刷新 UI 设置，不访问真实模型。
+  await page.getByRole('button',{name:'查询历史',exact:true}).click();await page.getByRole('dialog').getByRole('button',{name:'Close',exact:true}).click();await expect(page.getByRole('dialog')).toHaveCount(0);await expect(page.locator('.ai-model')).toContainText('workflow-fixture');
+  await edit('SELECT secret_not_selected;\nSELECT ai_selection;');await page.keyboard.press('Control+End');await page.keyboard.press('Home');await page.keyboard.press('Shift+End');
+  await select('AI 操作','解释 SQL');await select('AI SQL 范围','仅选中 SQL');await page.getByRole('textbox',{name:'AI 问题',exact:true}).fill('workflow selection');
+  const requestCount=receivedAI.length,reads=sqlLog.length;await page.getByRole('button',{name:'预览并发送',exact:false}).click();await expect(page.getByRole('dialog')).toContainText('SELECT ai_selection;');assert(!(await page.getByRole('dialog').innerText()).includes('secret_not_selected'));
+  await page.getByRole('button',{name:'发送给模型',exact:true}).click();await expect(page.getByRole('button',{name:'对比替换',exact:true})).toBeEnabled({timeout:15000});
+  const sent=receivedAI[requestCount];assert(sent);const context=JSON.parse(sent.body.messages[1].content).context;assert.equal(context.sql,'SELECT ai_selection;');assert.equal(sqlLog.length,reads);
+  await page.getByRole('button',{name:'对比替换',exact:true}).click();await page.getByRole('button',{name:'替换编辑器内容',exact:true}).click();await expect.poll(content).toBe('SELECT secret_not_selected;\nSELECT * FROM customers;');
+  await editor.click();await page.keyboard.press('Control+z');await expect.poll(content).toBe('SELECT secret_not_selected;\nSELECT ai_selection;');
+  await page.getByRole('button',{name:'对比替换',exact:true}).click();await page.getByRole('button',{name:'替换编辑器内容',exact:true}).click();await expect(page.getByText(/原 SQL 已修改，未覆盖任何内容/)).toBeVisible();await expect(page.getByRole('dialog')).toBeVisible();await page.getByRole('dialog').getByRole('button',{name:/^取\s*消$/}).click();
+  await select('AI SQL 范围','当前语句');await page.getByRole('button',{name:'预览并发送',exact:false}).click();await expect(page.getByRole('dialog')).toContainText('SELECT ai_selection;');await page.getByRole('dialog').getByRole('button',{name:/^取\s*消$/}).click();
+  await select('AI SQL 范围','当前标签全文');await page.getByRole('button',{name:'预览并发送',exact:false}).click();await expect(page.getByRole('dialog')).toContainText('secret_not_selected');await page.getByRole('dialog').getByRole('button',{name:/^取\s*消$/}).click();
+  await page.screenshot({path:path.join(work,'workflow.png')});
+  return ['脚本错误序号与原文行定位','当前语句错误偏移与编辑清除标记','查询完整导出 10005 行：加载后续行及切换 Schema 后保留原 SQL、参数和 Schema','查询导出拒绝写入多语句和自定义函数','查询导出取消保留原文件并清理临时文件','AND/OR 多条件界面及绑定防注入','筛选导出使用已应用条件而非未应用草稿','AI 选区预览与实际请求不包含相邻 SQL','AI 局部替换及一次撤销','AI 原文变动后拒绝覆盖','AI 当前语句和全文范围预览'];
+}

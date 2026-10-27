@@ -1,0 +1,94 @@
+{
+  "version": "0.3.12-20261027",
+  "appAsarSha256": "eba04c25dc2f8fbfa94ec213759620cbc9dc6b0a041b726d2ccb3415989eba40",
+  "files": {
+    "assets/icon.ico": {
+      "size": 9211,
+      "sha256": "ccedc0efcef7c7ec83fcd05e0d7c8eb8c378839bc00a1ed9f52df16801695e37"
+    },
+    "assets/icon.png": {
+      "size": 9189,
+      "sha256": "39e7a9b6c492bea3590538560d58c47695d721ac98ce3d580d13f12f7e6c7432"
+    },
+    "dist/assets/codicon-ngg6Pgfi.ttf": {
+      "size": 121972,
+      "sha256": "9d25513c861704be650eacef8c4588aceabdc8b668857747b5e42b299e926918"
+    },
+    "dist/assets/editor.worker-1APKdqmi.js": {
+      "size": 251850,
+      "sha256": "0f5568c3b432f1c0ccb1a45f85c5a15be46a383bcdc3d3f6bbbcbe83be9bd6e7"
+    },
+    "dist/assets/EditorCore-COg077tV.css": {
+      "size": 146358,
+      "sha256": "72ea33c31bb5476551b2382f2a04983de35b9343ad077f1503a9a34bf6c97b94"
+    },
+    "dist/assets/EditorCore-DPy74pA7.js": {
+      "size": 3691829,
+      "sha256": "69a31cd76f954dba9be16f07a986691339764ea2ed840b07f6e80ab09ecc922d"
+    },
+    "dist/assets/GridCore-BHNl3zCJ.js": {
+      "size": 1041542,
+      "sha256": "fc8899d28a125ec174f19c48cf5a4ad3243d1a14337a7f9562ed208013264c21"
+    },
+    "dist/assets/index-BiPxEQzb.js": {
+      "size": 1378238,
+      "sha256": "831f97bd1d335d984c343d516b5bbf974e51752d78e712a50e4c8dad2762d2a1"
+    },
+    "dist/assets/index-BXVoCd3S.css": {
+      "size": 21588,
+      "sha256": "bfefd0d204256d05990290fc1ac2d550fc785b044ca7bda9a4478ade399b3fcf"
+    },
+    "dist/assets/index-CXW_F79e.js": {
+      "size": 293342,
+      "sha256": "3d63a0832729ac31126515d91127a23c7a588ce987be79f832773b67a70f71eb"
+    },
+    "dist/assets/sql-ClhHkBeG.js": {
+      "size": 10159,
+      "sha256": "0fc597efd31a8aeb53dbaf1c385ed21e2bb50cdaff85895fee78b215bdfa2ed0"
+    },
+    "dist/assets/themes.css": {
+      "size": 18352,
+      "sha256": "6540e42ce784673e0306cbd8a0e22f3ef7875907b99e7e3dc6c19560b99fb12d"
+    },
+    "dist/assets/ai-bot.png": {
+      "size": 506361,
+      "sha256": "298d8ecb43a0b7ba60e62336177546715ebb75ac62647928e1e9a30e6c7931f6"
+    },
+    "dist/index.html": {
+      "size": 645,
+      "sha256": "2f41512779ed5d89e4389cbd87fc8ea9a70e5e1bda70aba6503bfc98bd6b41f6"
+    },
+    "dist-electron/codex-config.cjs": {
+      "size": 3879,
+      "sha256": "e4d27de9f92edc256c82b413e0197827ad42e26a1d19edb9c61251e27fece713"
+    },
+    "dist-electron/main.cjs": {
+      "size": 835674,
+      "sha256": "36057a566c0a79b5d93cdf3f0317252ed3f6b201f247dc77cd69d08b3bb2c463"
+    },
+    "dist-electron/preload.cjs": {
+      "size": 1164,
+      "sha256": "d23a66d6e5edcfc9740774a897a1ecfebf3128dd7f90cf8db3b66683f43bf6e4"
+    },
+    "dist-electron/worker.cjs": {
+      "size": 65912,
+      "sha256": "cd57e917c21e84b16e290af74025dd8066f6db7c530f9bf67d7a1f9ebad9ba8c"
+    },
+    "dist-electron/safety.cjs": {
+      "size": 3097,
+      "sha256": "f734ac89a5eaca1f28a9e8e88b7e69a3f96ed7b330448fd5b18f5f3a24d21c14"
+    },
+    "dist-electron/column-metadata.cjs": {
+      "size": 6030,
+      "sha256": "e3efb27a2d894d917187647ebe9cef2511f7cb885a35ce53dbc5d900bad2a455"
+    },
+    "package.json": {
+      "size": 261,
+      "sha256": "54dedef7ea3438149ca31bc9e943b2a501440e87a70afdccf01a8e1459c74f99"
+    },
+    "THIRD_PARTY_NOTICES.txt": {
+      "size": 996057,
+      "sha256": "b400ffb0f050d29b5276c9095b3b0e30de5416ae079fba8fa963c9ed0c6d367d"
+    }
+  }
+}

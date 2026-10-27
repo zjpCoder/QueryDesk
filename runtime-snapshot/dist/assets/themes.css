@@ -1,0 +1,204 @@
+/* 经典主题不改原样；清透紫与香槟金共用已选定的工作台布局。 */
+.polished-copy,.ai-bot{display:none}
+.theme-picker{display:flex;align-items:center;gap:7px}
+.theme-choice{display:flex;align-items:center;gap:12px;padding:5px 3px;min-width:216px}
+.theme-choice>span:last-child{display:flex;flex-direction:column;gap:4px}
+.theme-choice strong{font-size:13px;font-weight:600}
+.theme-choice small{font-size:11px;opacity:.72}
+.theme-swatch{width:32px;height:32px;border:1px solid #8a8a8a30;border-radius:7px;flex-shrink:0}
+.theme-swatch.classic{background:linear-gradient(135deg,#fff 50%,#aaa2ff 50%)}
+.theme-swatch.studio{background:linear-gradient(135deg,#f3f2fb 50%,#7468e8 50%)}
+.theme-swatch.champagne{background:linear-gradient(135deg,#15181c 50%,#c3b292 50%)}
+.ai-heading-actions{display:flex;align-items:center;gap:6px;min-width:0}
+.suggestions button .classic-copy{font-size:inherit;color:inherit}
+
+html[data-variant=studio]{--bg:#f5f6fa;--panel:#fff;--raised:#f1f3f8;--line:#e3e6ef;--text:#283147;--muted:#727d93;--accent:#7468e8;--subtle:#efedf9;--editor:#fff}
+html[data-theme=champagne]{--bg:#0e1115;--panel:#15191e;--raised:#1d2228;--line:#2d3239;--text:#e8e6e1;--muted:#a2a7b0;--accent:#c3b292;--subtle:#282923;--editor:#111418;color-scheme:dark}
+html[data-appearance=polished] body{font-size:14px}
+html[data-appearance=polished] .app-header{height:58px;padding:0 18px;gap:16px}
+html[data-appearance=polished] .brand{min-width:262px;gap:11px;font-size:24px;letter-spacing:-.5px}
+html[data-appearance=polished] .brand-light{color:var(--text);font-weight:600}
+html[data-appearance=polished] .brand .version-tag{display:none}
+html[data-appearance=polished] .brand-mark{width:32px;height:34px;border-radius:8px;box-shadow:none}
+html[data-appearance=polished] .header-nav{gap:24px;padding-left:0;font-size:14px}
+html[data-appearance=polished] .header-nav .nav-active{height:34px;font-weight:600;padding:0 14px}
+html[data-appearance=polished] .header-nav button{font-size:13px;padding:8px 0}
+html[data-appearance=polished] .header-actions{gap:6px}
+html[data-appearance=polished] .header-actions>.ant-btn{font-size:12px}
+html[data-appearance=polished] .local-label{font-size:11px;margin-right:4px}
+html[data-appearance=polished] .sidebar{width:280px;min-width:280px;background:color-mix(in srgb,var(--bg) 65%,var(--panel))}
+html[data-appearance=polished] .panel-heading{height:49px;min-height:49px;padding:0 18px}
+html[data-appearance=polished] .section-label{font-size:14px;color:var(--text);font-weight:600;letter-spacing:0}
+html[data-appearance=polished] .connection-list{padding:12px 12px 10px}
+html[data-appearance=polished] .group-name{padding:9px 6px 12px;font-size:12px;letter-spacing:0}
+html[data-appearance=polished] .connection-item{border-radius:7px;min-height:60px}
+html[data-appearance=polished] .connection-item.selected{background:color-mix(in srgb,var(--accent) 10%,var(--panel))}
+html[data-appearance=polished] .connection-main{padding:12px 10px;gap:11px}
+html[data-appearance=polished] .connection-main strong{font-size:14px;font-weight:600}
+html[data-appearance=polished] .connection-main small{font-size:11px;line-height:1.5}
+html[data-appearance=polished] .db-icon{width:32px;height:34px;font-size:12px}
+html[data-appearance=polished] .schema-selector{padding:14px 14px 12px;border-top:0}
+html[data-appearance=polished] .schema-selector .ant-select{height:36px}
+html[data-appearance=polished] .object-search{padding:0 14px 14px}
+html[data-appearance=polished] .object-search .ant-input-affix-wrapper{height:36px}
+html[data-appearance=polished] .object-search input{font-size:12px}
+html[data-appearance=polished] .object-heading{font-size:12px;padding:0 17px;letter-spacing:0}
+html[data-appearance=polished] .object-tree{padding:9px 10px}
+html[data-appearance=polished] .object-tree .ant-tree{font-size:14px;color:var(--text)}
+html[data-appearance=polished] .object-tree .ant-tree-treenode{padding:0 0 3px;width:100%}
+html[data-appearance=polished] .object-tree .ant-tree-node-content-wrapper{min-height:30px;line-height:30px;border-radius:5px}
+html[data-appearance=polished] .object-tree .ant-tree-switcher{line-height:30px}
+html[data-appearance=polished] .object-tree .ant-tree-iconEle{line-height:30px;color:var(--muted)}
+html[data-appearance=polished] .object-group-title{font-weight:600}
+html[data-appearance=polished] .object-group-title .muted{font-size:11px}
+html[data-appearance=polished] .sidebar-bottom{height:39px;gap:8px}
+html[data-appearance=polished] .workspace-tabs{height:49px;padding:5px 12px;gap:8px}
+html[data-appearance=polished] .workspace-tabs .ant-tabs-tab{height:38px;min-width:146px;font-size:13px}
+html[data-appearance=polished] .workspace-tabs>.ant-tabs,html[data-appearance=polished] .workspace-tabs .ant-tabs-nav{height:38px}
+html[data-appearance=polished] .tab-actions{gap:5px}
+html[data-appearance=polished] .tab-actions .ant-btn{font-size:12px;height:30px;padding-inline:10px}
+html[data-appearance=polished] .connection-strip{height:45px;min-height:45px;padding:0 17px;background:var(--panel);font-size:12px}
+html[data-appearance=polished] .connection-strip .ant-btn{font-size:12px}
+html[data-appearance=polished] .connection-strip .ant-tag{font-size:10px}
+html[data-appearance=polished] .autocommit{font-size:11px}
+html[data-appearance=polished] .query-toolbar{height:54px;min-height:54px;padding:0 16px}
+html[data-appearance=polished] .query-toolbar .ant-btn{height:36px;font-size:14px;padding-inline:16px}
+html[data-appearance=polished] .query-toolbar .ant-btn-primary{min-width:92px;font-weight:600}
+html[data-appearance=polished] .shortcut-hint{font-size:10px;white-space:nowrap}
+html[data-appearance=polished] .shortcut-hint span{display:none}
+html[data-appearance=polished] .editor-area{height:24%;min-height:170px;background:var(--editor)}
+html[data-appearance=polished] .results-heading{height:51px;min-height:51px;padding:0 16px}
+html[data-appearance=polished] .results-heading strong{font-size:14px;font-weight:600}
+html[data-appearance=polished] .results-heading .muted{font-size:12px}
+html[data-appearance=polished] .results-heading .ant-btn{font-size:12px;height:32px;padding-inline:10px}
+html[data-appearance=polished] .result-footer{height:37px;min-height:37px;font-size:11px}
+html[data-appearance=polished] .result-footer .muted{font-size:10px}
+html[data-appearance=polished] .statusbar{height:26px;min-height:26px;font-size:10px}
+html[data-appearance=polished] .ai-panel{width:350px;min-width:350px;background:var(--panel)}
+html[data-appearance=polished] .ai-panel .panel-heading{height:49px;min-height:49px;padding:0 15px;gap:12px}
+html[data-appearance=polished] .ai-panel .panel-heading strong{font-size:16px;font-weight:600;white-space:nowrap}
+html[data-appearance=polished] .ai-spark{font-size:17px}
+html[data-appearance=polished] .ai-model{display:none}
+html[data-appearance=polished] .classic-copy{display:none}
+html[data-appearance=polished] .polished-copy{display:inline}
+html[data-appearance=polished] .ai-model-chip{display:block;max-width:144px;height:30px;font-size:11px;color:var(--muted);border:1px solid var(--line);padding:3px 9px;background:var(--raised);overflow:hidden;text-overflow:ellipsis}
+html[data-appearance=polished] .ai-output{background:color-mix(in srgb,var(--bg) 40%,var(--panel))}
+html[data-appearance=polished] .ai-welcome{padding:82px 18px 16px;text-align:center}
+html[data-appearance=polished] .ai-orbit{width:78px;height:78px;margin:0 auto 22px;border-radius:50%;background:#eeebff;border:0;box-shadow:none}
+html[data-appearance=polished] .ai-orbit>.anticon{display:none}
+html[data-appearance=polished] .ai-bot{display:block;width:72px;height:72px;object-fit:contain}
+html[data-variant=studio] .ai-bot{filter:sepia(1) saturate(2.5) hue-rotate(198deg)}
+html[data-appearance=polished] .ai-welcome h3{font-size:20px;font-weight:600;letter-spacing:-.3px;margin:0 0 14px;color:var(--text);white-space:nowrap}
+html[data-appearance=polished] .ai-welcome>p{font-size:14px;line-height:1.9;margin:0 auto 28px;max-width:280px;color:var(--muted)}
+html[data-appearance=polished] .suggestions{gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
+html[data-appearance=polished] .suggestions button{min-height:58px;border:0;border-radius:0;border-bottom:1px solid var(--line);background:transparent;padding:13px 14px;gap:12px;font-size:13px}
+html[data-appearance=polished] .suggestions button:last-child{border-bottom:0}
+html[data-appearance=polished] .suggestions button:hover{background:var(--raised)}
+html[data-appearance=polished] .suggestions button .suggestion-icon{display:flex;align-items:center;color:var(--accent);font-size:18px;flex-shrink:0}
+html[data-appearance=polished] .suggestions button .suggestion-label{flex:1;color:var(--text);font-size:14px;text-align:left;line-height:1.6}
+html[data-appearance=polished] .suggestion-icon>.anticon{color:inherit!important;font-size:20px}
+html[data-appearance=polished] .suggestion-arrow{color:var(--muted);font-size:12px}
+html[data-appearance=polished] .ai-welcome p.ai-privacy{display:block;font-size:10px;line-height:1.8;margin:18px 3px 0;opacity:1;max-width:none}
+html[data-appearance=polished] .ai-compose{display:grid;grid-template-columns:1fr auto;padding:14px 16px 12px;gap:9px}
+html[data-appearance=polished] .ai-compose>*{grid-column:1/-1;min-width:0}
+html[data-appearance=polished] .ai-compose>.ant-select:first-child{grid-column:2;grid-row:1;width:143px;height:30px}
+html[data-appearance=polished] .context-label{grid-column:1;grid-row:1;align-self:center;display:block;font-size:12px;line-height:1.5;color:var(--muted);margin:0}
+html[data-appearance=polished] .ai-compose .ant-select{font-size:12px}
+html[data-appearance=polished] .ai-compose textarea{min-height:120px!important;font-size:13px;line-height:1.9;background:var(--panel);padding:12px}
+html[data-appearance=polished] .ai-context-toggle{font-size:10px;line-height:1.7}
+html[data-appearance=polished] .ai-send{margin-top:2px}
+html[data-appearance=polished] .ai-send>.muted{font-size:10px}
+html[data-appearance=polished] .ai-send .ant-btn{height:34px;font-size:12px;font-weight:600;padding-inline:13px}
+html[data-appearance=polished] .ai-panel>.ant-btn-link{align-self:center;font-size:10px;height:25px;color:var(--muted)}
+html[data-appearance=polished] .ai-response{font-size:13px;padding:20px 18px}
+
+/* 香槟金：以中性灰黑为主，低饱和金属色只用于品牌与主要操作。 */
+html[data-theme=champagne] .brand-mark{background:transparent;color:var(--accent);box-shadow:none;font-size:25px}
+html[data-theme=champagne] .brand-light{color:var(--text)}
+html[data-theme=champagne] .header-nav .nav-active{color:#d3c4a8;background:transparent;border-radius:0;position:relative}
+html[data-theme=champagne] .header-nav .nav-active:after{content:"";position:absolute;bottom:-12px;left:13px;right:13px;height:2px;background:linear-gradient(90deg,#837252,#ded1b2,#928263);border-radius:2px}
+html[data-theme=champagne] .ant-btn-primary:not(:disabled){background:linear-gradient(112deg,#ded3b8 0%,#c4b18b 52%,#aa9570 100%);color:#171819;border-color:#c1ae88;box-shadow:inset 0 1px 0 #f7edda55;text-shadow:none}
+html[data-theme=champagne] .ant-btn-primary:not(:disabled):hover{background:linear-gradient(112deg,#e8dec8,#cebd99 52%,#b39f7c);border-color:#d8c5a1;color:#111418}
+html[data-theme=champagne] .ant-btn-default:not(:disabled){background:#1b2026;border-color:#363b42;color:#e1ded7;box-shadow:inset 0 1px 0 #ffffff05}
+html[data-theme=champagne] .ant-btn-default:not(:disabled):hover{border-color:#968565;color:#ded0b2;background:#23272c}
+html[data-theme=champagne] .connection-item.selected{background:#242622;box-shadow:inset 2px 0 0 #b6a17b}
+html[data-theme=champagne] .db-icon{color:#c5b28e;background:#2d2d27;border-color:#434139}
+html[data-theme=champagne] .workspace-tabs .ant-tabs-tab-active{border-color:#796f5c!important;border-bottom-color:var(--panel)!important;box-shadow:inset 0 1px 0 #c8b797}
+html[data-theme=champagne] .workspace-tabs .ant-tabs-tab-active .tab-label>.anticon{background:transparent;color:#c5b28e}
+html[data-theme=champagne] .ai-orbit{background:#252723;border:1px solid #3c3c34}
+html[data-theme=champagne] .ai-panel .ai-welcome h3{color:#ece9e2}
+html[data-theme=champagne] .suggestions button .suggestion-icon{color:#cabb9c}
+html[data-theme=champagne] .suggestions button:hover{background:#23272b}
+html[data-theme=champagne] .driver-badge{color:#aeb6c0;border-color:#3a414b}
+html[data-theme=champagne] .driver-badge.oracle{color:#c2b394;border-color:#494334}
+html[data-theme=champagne] .welcome{background:none}
+html[data-theme=champagne] ::-webkit-scrollbar-thumb{background:#41464d}
+html[data-theme=champagne] .ag-row-hover{background-color:#20252b!important}
+html[data-theme=champagne] .ant-select-outlined .ant-select-selector,html[data-theme=champagne] .ant-input-affix-wrapper,html[data-theme=champagne] .ant-input-outlined{background:#1a1e23;border-color:#353a41}
+html[data-theme=champagne] .ant-input::placeholder,html[data-theme=champagne] .ant-select-selection-placeholder{color:#9299a4!important;opacity:1}
+html[data-appearance=polished] button:focus-visible,html[data-appearance=polished] .ant-btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+@media(max-width:1400px){
+ html[data-appearance=polished] .sidebar{width:230px;min-width:230px}
+ html[data-appearance=polished] .ai-panel{width:306px;min-width:306px}
+ html[data-appearance=polished] .brand{min-width:200px;font-size:21px}
+ html[data-appearance=polished] .header-nav{gap:18px}
+ html[data-appearance=polished] .local-label{display:none}
+ html[data-appearance=polished] .workspace-tabs{flex-wrap:wrap;height:auto;min-height:49px;padding:6px 10px}
+ html[data-appearance=polished] .workspace-tabs>.ant-tabs{flex-basis:100%}
+ html[data-appearance=polished] .workspace-tabs .tab-actions{margin-left:auto;border-left:0;padding:0;min-height:30px}
+ html[data-appearance=polished] .ai-model-chip{max-width:110px}
+ html[data-appearance=polished] .ai-welcome h3{font-size:16px}
+ html[data-appearance=polished] .results-heading .ant-btn{padding-inline:6px;font-size:11px}
+ html[data-appearance=polished] .result-footer .muted{display:none}
+}
+@media(max-width:1120px){
+ html[data-appearance=polished] .sidebar{width:205px;min-width:205px}
+ html[data-appearance=polished] .ai-panel{width:280px;min-width:280px}
+ html[data-appearance=polished] .brand{min-width:170px;font-size:19px}
+ html[data-appearance=polished] .header-nav{gap:12px;font-size:12px}
+ html[data-appearance=polished] .header-nav .nav-active{padding-inline:8px}
+ html[data-appearance=polished] .header-actions{gap:2px}
+ html[data-appearance=polished] .ai-welcome{padding-inline:12px}
+ html[data-appearance=polished] .ai-model-chip{max-width:94px}
+ html[data-appearance=polished] .ai-panel .panel-heading{padding-inline:12px;gap:5px}
+ html[data-appearance=polished] .ai-panel .panel-heading strong{font-size:14px}
+ html[data-appearance=polished] .suggestions button .suggestion-label{font-size:12px}
+ html[data-appearance=polished] .results-heading{height:auto;min-height:51px;flex-wrap:wrap;gap:5px;padding-block:8px}
+ html[data-appearance=polished] .query-toolbar .ant-btn{padding-inline:10px}
+ html[data-appearance=polished] .shortcut-hint{display:none}
+ html[data-appearance=polished] .connection-strip{padding-inline:10px;font-size:11px}
+}
+@media(max-height:850px){
+ html[data-appearance=polished] .ai-welcome{padding-top:26px}
+ html[data-appearance=polished] .ai-orbit{width:60px;height:60px;margin-bottom:14px}
+ html[data-appearance=polished] .ai-bot{width:56px;height:56px}
+ html[data-appearance=polished] .ai-welcome>p{margin-bottom:19px}
+ html[data-appearance=polished] .suggestions button{min-height:46px;padding-block:10px}
+ html[data-appearance=polished] .ai-compose{gap:7px;padding-top:10px;padding-bottom:8px}
+ html[data-appearance=polished] .ai-compose textarea{min-height:82px!important}
+}
+@media(prefers-reduced-motion:reduce){html[data-appearance=polished] *,html[data-appearance=polished] *:before,html[data-appearance=polished] *:after{scroll-behavior:auto!important;transition:none!important}}
+
+/* 由树组件内部滚动，外层仅提供真实可用高度。 */
+.object-tree.object-tree-virtual{overflow:hidden}
+
+/* 环境文字与颜色同时显示，三套主题保持可识别。 */
+.connection-environment,.connection-readonly{display:inline-flex;align-items:center;flex-shrink:0;padding:1px 6px;border:1px solid;border-radius:4px;font-size:11px;line-height:18px;font-weight:600;white-space:nowrap}
+.connection-environment.env-production{color:#b42318;background:#fef3f2;border-color:#fda29b}
+.connection-environment.env-test{color:#92400e;background:#fffbeb;border-color:#fcd34d}
+.connection-environment.env-development{color:#166534;background:#f0fdf4;border-color:#86efac}
+.connection-environment.env-unspecified{color:#475467;background:#f2f4f7;border-color:#d0d5dd}
+.connection-readonly{color:#155e75;background:#ecfeff;border-color:#67e8f9}
+.connection-main strong{display:flex!important;align-items:center;gap:5px;min-width:0;flex-wrap:wrap}
+.connection-main .connection-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.connection-main{position:relative}
+.connection-main .connection-environment,.connection-main .connection-readonly{font-size:10px;line-height:15px;padding:0 4px}
+@media(max-width:1300px){.connection-main .connection-name{flex-basis:100%;max-width:100%}}
+.connection-main>span:nth-child(2){min-width:0;flex:1}
+.connection-strip.production-strip{box-shadow:inset 4px 0 #d92d20;background-image:linear-gradient(90deg,rgba(217,45,32,.09),transparent)}
+[data-theme="dark"] .env-production,[data-theme="champagne"] .env-production{color:#fda29b;background:#3b2020;border-color:#8e3e37}
+[data-theme="dark"] .env-test,[data-theme="champagne"] .env-test{color:#fcd34d;background:#352c19;border-color:#80612d}
+[data-theme="dark"] .env-development,[data-theme="champagne"] .env-development{color:#86efac;background:#193126;border-color:#356b49}
+[data-theme="dark"] .env-unspecified,[data-theme="champagne"] .env-unspecified{color:#d0d5dd;background:#282c34;border-color:#515967}
+[data-theme="dark"] .connection-readonly,[data-theme="champagne"] .connection-readonly{color:#67e8f9;background:#17303a;border-color:#386576}

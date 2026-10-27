@@ -1,0 +1,12 @@
+{
+  "name": "querydesk",
+  "version": "0.3.11",
+  "private": true,
+  "description": "QueryDesk Windows 数据库工作台",
+  "author": "QueryDesk",
+  "license": "UNLICENSED",
+  "main": "dist-electron/main.cjs",
+  "dependencies": {
+    "mysql2": "^3.15.3"
+  }
+}

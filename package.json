@@ -1,0 +1,112 @@
+{
+  "name": "querydesk",
+  "version": "0.3.12",
+  "private": true,
+  "description": "QueryDesk Windows 数据库工作台",
+  "author": "QueryDesk",
+  "license": "UNLICENSED",
+  "main": "dist-electron/main.cjs",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "npm run build:jdbc && tsc --noEmit && vite build && node scripts/build.mjs",
+    "test": "tsx --test tests/*.test.ts",
+    "start": "electron .",
+    "pack": "npm run build && electron-builder --win dir",
+    "dist": "npm run build && electron-builder --win nsis --x64",
+    "smoke": "node scripts/smoke.mjs",
+    "build:jdbc": "node scripts/build-jdbc.mjs",
+    "setup:jdbc": "node scripts/setup-jdbc.mjs",
+    "smoke:oracle": "node scripts/oracle-smoke.mjs",
+    "start:release": "node scripts/start-release.mjs",
+    "build:release": "npm run build:jdbc && node scripts/apply-runtime-snapshot.mjs",
+    "dist:release": "npm run build:release && electron-builder --win nsis --x64 --publish never",
+    "verify:snapshot": "node scripts/verify-snapshot.mjs",
+    "smoke:release": "node scripts/release-smoke.mjs"
+  },
+  "dependencies": {
+    "mysql2": "^3.15.3"
+  },
+  "devDependencies": {
+    "@ant-design/icons": "^6.1.0",
+    "@monaco-editor/react": "^4.7.0",
+    "@playwright/test": "^1.56.1",
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "@vitejs/plugin-react": "^5.1.0",
+    "ag-grid-community": "^34.3.1",
+    "ag-grid-react": "^34.3.1",
+    "antd": "^5.28.0",
+    "electron": "^40.0.0",
+    "electron-builder": "^26.0.12",
+    "esbuild": "^0.25.12",
+    "monaco-editor": "^0.55.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "sql-formatter": "^15.6.10",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2",
+    "zod": "^4.1.12"
+  },
+  "build": {
+    "appId": "com.querydesk.desktop",
+    "productName": "QueryDesk",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*",
+      "assets/**/*",
+      "THIRD_PARTY_NOTICES.txt",
+      "package.json",
+      "querydesk-mcp.cjs",
+      "querydesk-mcp.cmd"
+    ],
+    "npmRebuild": false,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "artifactName": "QueryDesk-Setup-${version}-${arch}.${ext}",
+      "guid": "93143976-4d4b-5b67-9fe1-ca36fd034bb6",
+      "runAfterFinish": false,
+      "installerLanguages": [
+        "zh_CN"
+      ],
+      "language": "2052"
+    },
+    "extraResources": [
+      {
+        "from": "runtime",
+        "to": "runtime"
+      }
+    ],
+    "extraFiles": [
+      {
+        "from": "querydesk-mcp.cjs",
+        "to": "querydesk-mcp.cjs"
+      },
+      {
+        "from": "querydesk-mcp.cmd",
+        "to": "querydesk-mcp.cmd"
+      }
+    ]
+  }
+}
